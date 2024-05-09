@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import 'dotenv/config';
 
 import { registerValidation, loginValidation, postCreateValidation } from "./validation.js";
 
@@ -10,7 +11,7 @@ import * as PostController from "./controllers/PostController.js";
 import handleValidationErrors from "./utils/handleValidationErrors.js";
 
 mongoose
-    .connect('mongodb+srv://slobodyanoleg5:TnNbub8sCxYchZ4l@cluster0.qnh1noe.mongodb.net/blog?')
+    .connect(process.env.MONGODB_URI)
     .then(() => console.log('DB ok'))
     .catch(err => console.log('DB error', err));
 
