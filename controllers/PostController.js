@@ -27,7 +27,7 @@ export const getPost = (req, res) => {
             {
                 returnDocument: "after",
             }
-        )
+        ).populate('user')
             .then((post) => { res.json(post) })
             .catch(err => {
                 console.log(err);
@@ -67,7 +67,7 @@ export const createPost = async (req, res) => {
             title: req.body.title,
             text: req.body.text,
             imageUrl: req.body.imageUrl,
-            tags: req.body.tags,
+            tags: req.body.tags.split(','),
             user: req.userId,
         });
         const post = await doc.save();
@@ -88,7 +88,12 @@ export const updatePost = async (req, res) => {
 
         await PostModel.updateOne(
             { _id: postId },
-            { title, text, imageUrl, tags },
+            {
+                title,
+                text,
+                imageUrl,
+                tags: tags.split(',')
+            },
         );
 
         res.json({ success: true });
